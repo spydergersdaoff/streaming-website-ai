@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnimeStream - Lecteur</title>
+    <title>Zinora Stream - Lecteur</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Background Effects -->
     <div class="bg-effects">
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
         <div class="grid-overlay"></div>
     </div>
 
-    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo-wrapper">
@@ -27,82 +25,70 @@
                             <path d="M8 5v14l11-7z"/>
                         </svg>
                     </div>
-                    <span class="logo-text">Anime<span class="logo-accent">Stream</span></span>
+                    <span class="logo-text">Zinora<span class="logo-accent"> Stream</span></span>
                 </div>
             </div>
             
             <div class="nav-menu">
                 <a href="index.html" class="nav-item">
-                    <span class="nav-icon">🏠</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="3" y="3" width="7" height="9" rx="1" ry="1"/>
+                        <rect x="14" y="3" width="7" height="5" rx="1" ry="1"/>
+                        <rect x="14" y="12" width="7" height="9" rx="1" ry="1"/>
+                        <rect x="3" y="16" width="7" height="5" rx="1" ry="1"/>
+                    </svg>
                     <span>Accueil</span>
-                </a>
-                <a href="#" id="backToDetails" class="nav-item">
-                    <span class="nav-icon">←</span>
-                    <span>Détails</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Player Page -->
     <main class="player-page">
         <div class="player-container-wrapper">
-            <!-- Player Header -->
             <div class="player-header">
+                <a href="#" id="backToDetails" class="back-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                    Retour aux détails
+                </a>
                 <div class="player-info">
-                    <h1 id="animeTitle" class="player-title"></h1>
-                    <div class="player-meta">
-                        <span id="seasonTitle" class="season-badge"></span>
-                        <span class="meta-separator">•</span>
-                        <span id="currentEpisode" class="episode-badge"></span>
-                    </div>
+                    <h1 class="player-title" id="animeTitle">Chargement...</h1>
+                    <h2 class="episode-title" id="seasonTitle"></h2>
                 </div>
             </div>
 
-            <!-- Player Layout -->
-            <div class="player-layout">
-                <!-- Main Player Area -->
+            <div class="player-content-grid">
                 <div class="player-main">
-                    <!-- Video Player -->
-                    <div class="video-player-wrapper">
-                        <div class="video-container">
-                            <iframe id="videoPlayer" allowfullscreen></iframe>
-                            <div class="player-overlay">
-                                <div class="loading-spinner"></div>
-                            </div>
-                        </div>
+                    <div class="video-container">
+                        <iframe 
+                            id="videoPlayer" 
+                            src="" 
+                            frameborder="0" 
+                            allowfullscreen 
+                            allow="encrypted-media"
+                        ></iframe>
                     </div>
 
-                    <!-- Player Controls -->
-                    <div class="player-controls-section">
-                        <div class="controls-card">
-                            <div class="controls-header">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                    <polygon points="5 3 19 12 5 21 5 3"/>
-                                </svg>
-                                <span>Navigation</span>
-                            </div>
-                            <div class="episode-navigation">
-                                <button id="prevEpisode" class="nav-btn prev-btn">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                        <polygon points="19 20 9 12 19 4 19 20"/>
-                                        <line x1="5" y1="19" x2="5" y2="5"/>
-                                    </svg>
-                                    <span>Précédent</span>
-                                </button>
-                                <button id="nextEpisode" class="nav-btn next-btn">
-                                    <span>Suivant</span>
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                                        <polygon points="5 4 15 12 5 20 5 4"/>
-                                        <line x1="19" y1="5" x2="19" y2="19"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="episode-navigation">
+                        <button id="prevEpisode" class="nav-btn">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polyline points="15 18 9 12 15 6"/>
+                            </svg>
+                            Précédent
+                        </button>
+                        <span id="currentEpisode" class="current-episode-info"></span>
+                        <button id="nextEpisode" class="nav-btn">
+                            Suivant
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </button>
+                    </div>
 
-                        <!-- Lecteur Selector -->
-                        <div class="controls-card">
-                            <div class="controls-header">
+                    <div class="lecteurs-section">
+                        <div class="section-header">
+                            <div class="section-title-wrapper">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                                     <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
                                     <polyline points="17 2 12 7 7 2"/>
@@ -114,7 +100,6 @@
                     </div>
                 </div>
 
-                <!-- Episodes Sidebar -->
                 <aside class="episodes-sidebar">
                     <div class="sidebar-header">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
