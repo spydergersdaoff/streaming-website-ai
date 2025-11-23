@@ -1,184 +1,139 @@
-// Données de l'anime et de la saison
-let currentAnime = null;
-let currentSeason = null;
-let currentSeasonName = null;
-let episodesList = [];
-let currentEpisodeIndex = 0;
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeStream - Lecteur</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="grid-overlay"></div>
+    </div>
 
-// Éléments DOM
-const animeTitle = document.getElementById('animeTitle');
-const seasonTitle = document.getElementById('seasonTitle');
-const videoPlayer = document.getElementById('videoPlayer');
-const currentEpisodeEl = document.getElementById('currentEpisode');
-const episodesListEl = document.getElementById('episodesList');
-const lecteurButtons = document.getElementById('lecteurButtons');
-const prevEpisodeBtn = document.getElementById('prevEpisode');
-const nextEpisodeBtn = document.getElementById('nextEpisode');
-const backToDetails = document.getElementById('backToDetails');
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo-wrapper">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                    <span class="logo-text">Anime<span class="logo-accent">Stream</span></span>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item">
+                    <span class="nav-icon">🏠</span>
+                    <span>Accueil</span>
+                </a>
+                <a href="#" id="backToDetails" class="nav-item">
+                    <span class="nav-icon">←</span>
+                    <span>Détails</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
-// Initialisation
-function init() {
-    const animeIndex = localStorage.getItem('selectedAnimeIndex');
-    currentSeasonName = localStorage.getItem('selectedSeason');
-    
-    if (animeIndex === null || currentSeasonName === null) {
-        window.location.href = 'index.html';
-        return;
-    }
-    
-    loadAnimeData(animeIndex);
-    setupEventListeners();
-}
+    <!-- Player Page -->
+    <main class="player-page">
+        <div class="player-container-wrapper">
+            <!-- Player Header -->
+            <div class="player-header">
+                <div class="player-info">
+                    <h1 id="animeTitle" class="player-title"></h1>
+                    <div class="player-meta">
+                        <span id="seasonTitle" class="season-badge"></span>
+                        <span class="meta-separator">•</span>
+                        <span id="currentEpisode" class="episode-badge"></span>
+                    </div>
+                </div>
+            </div>
 
-// Charger les données de l'anime
-function loadAnimeData(animeIndex) {
-    currentAnime = animesData[animeIndex];
-    
-    if (!currentAnime) {
-        window.location.href = 'index.html';
-        return;
-    }
-    
-    animeTitle.textContent = currentAnime.animeName;
-    
-    if (currentAnime.isFilm) {
-        setupFilm();
-    } else {
-        setupSeries();
-    }
-}
+            <!-- Player Layout -->
+            <div class="player-layout">
+                <!-- Main Player Area -->
+                <div class="player-main">
+                    <!-- Video Player -->
+                    <div class="video-player-wrapper">
+                        <div class="video-container">
+                            <iframe id="videoPlayer" allowfullscreen></iframe>
+                            <div class="player-overlay">
+                                <div class="loading-spinner"></div>
+                            </div>
+                        </div>
+                    </div>
 
-// Configuration pour un film
-function setupFilm() {
-    seasonTitle.textContent = 'Film';
-    currentEpisodeEl.textContent = currentAnime.animeName;
-    
-    // Masquer la navigation d'épisodes
-    prevEpisodeBtn.style.display = 'none';
-    nextEpisodeBtn.style.display = 'none';
-    episodesListEl.parentElement.style.display = 'none';
-    
-    // Afficher les lecteurs
-    renderLecteurs(currentAnime.lecteurs);
-}
+                    <!-- Player Controls -->
+                    <div class="player-controls-section">
+                        <div class="controls-card">
+                            <div class="controls-header">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <polygon points="5 3 19 12 5 21 5 3"/>
+                                </svg>
+                                <span>Navigation</span>
+                            </div>
+                            <div class="episode-navigation">
+                                <button id="prevEpisode" class="nav-btn prev-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polygon points="19 20 9 12 19 4 19 20"/>
+                                        <line x1="5" y1="19" x2="5" y2="5"/>
+                                    </svg>
+                                    <span>Précédent</span>
+                                </button>
+                                <button id="nextEpisode" class="nav-btn next-btn">
+                                    <span>Suivant</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <polygon points="5 4 15 12 5 20 5 4"/>
+                                        <line x1="19" y1="5" x2="19" y2="19"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
 
-// Configuration pour une série
-function setupSeries() {
-    currentSeason = currentAnime.seasons[currentSeasonName];
-    
-    if (!currentSeason) {
-        window.location.href = 'details.html';
-        return;
-    }
-    
-    seasonTitle.textContent = currentSeasonName;
-    
-    // Créer la liste des épisodes
-    episodesList = Object.keys(currentSeason).map((episodeName, index) => ({
-        name: episodeName,
-        lecteurs: currentSeason[episodeName],
-        index: index
-    }));
-    
-    // Afficher la liste des épisodes
-    renderEpisodesList();
-    
-    // Charger le premier épisode
-    loadEpisode(0);
-}
+                        <!-- Lecteur Selector -->
+                        <div class="controls-card">
+                            <div class="controls-header">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                                    <polyline points="17 2 12 7 7 2"/>
+                                </svg>
+                                <span>Lecteurs disponibles</span>
+                            </div>
+                            <div id="lecteurButtons" class="lecteur-grid"></div>
+                        </div>
+                    </div>
+                </div>
 
-// Afficher la liste des épisodes
-function renderEpisodesList() {
-    episodesListEl.innerHTML = '';
-    
-    episodesList.forEach((episode, index) => {
-        const episodeItem = document.createElement('div');
-        episodeItem.className = 'episode-item';
-        episodeItem.textContent = episode.name;
-        episodeItem.onclick = () => loadEpisode(index);
-        
-        if (index === currentEpisodeIndex) {
-            episodeItem.classList.add('active');
-        }
-        
-        episodesListEl.appendChild(episodeItem);
-    });
-}
+                <!-- Episodes Sidebar -->
+                <aside class="episodes-sidebar">
+                    <div class="sidebar-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <line x1="8" y1="6" x2="21" y2="6"/>
+                            <line x1="8" y1="12" x2="21" y2="12"/>
+                            <line x1="8" y1="18" x2="21" y2="18"/>
+                            <line x1="3" y1="6" x2="3.01" y2="6"/>
+                            <line x1="3" y1="12" x2="3.01" y2="12"/>
+                            <line x1="3" y1="18" x2="3.01" y2="18"/>
+                        </svg>
+                        <h3>Liste des épisodes</h3>
+                    </div>
+                    <div id="episodesList" class="episodes-list"></div>
+                </aside>
+            </div>
+        </div>
+    </main>
 
-// Charger un épisode
-function loadEpisode(index) {
-    if (index < 0 || index >= episodesList.length) return;
-    
-    currentEpisodeIndex = index;
-    const episode = episodesList[index];
-    
-    currentEpisodeEl.textContent = episode.name;
-    
-    // Mettre à jour la liste des épisodes
-    document.querySelectorAll('.episode-item').forEach((item, i) => {
-        if (i === index) {
-            item.classList.add('active');
-            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        } else {
-            item.classList.remove('active');
-        }
-    });
-    
-    // Mettre à jour les boutons de navigation
-    prevEpisodeBtn.disabled = index === 0;
-    nextEpisodeBtn.disabled = index === episodesList.length - 1;
-    
-    // Afficher les lecteurs
-    renderLecteurs(episode.lecteurs);
-}
-
-// Afficher les lecteurs
-function renderLecteurs(lecteurs) {
-    lecteurButtons.innerHTML = '';
-    
-    lecteurs.forEach((url, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'lecteur-btn';
-        btn.textContent = `Lecteur ${index + 1}`;
-        btn.onclick = () => loadVideo(url, btn);
-        lecteurButtons.appendChild(btn);
-    });
-    
-    // Charger automatiquement le premier lecteur
-    if (lecteurs.length > 0) {
-        const firstBtn = lecteurButtons.querySelector('.lecteur-btn');
-        loadVideo(lecteurs[0], firstBtn);
-    }
-}
-
-// Charger la vidéo
-function loadVideo(url, btn) {
-    // Retirer la classe active de tous les boutons lecteur
-    document.querySelectorAll('.lecteur-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    
-    // Forcer HTTPS pour éviter les erreurs de contenu mixte
-    const secureUrl = url.replace(/^http:\/\//i, 'https://');
-    videoPlayer.src = secureUrl;
-}
-
-// Configuration des écouteurs d'événements
-function setupEventListeners() {
-    // Navigation entre épisodes
-    prevEpisodeBtn.addEventListener('click', () => {
-        loadEpisode(currentEpisodeIndex - 1);
-    });
-    
-    nextEpisodeBtn.addEventListener('click', () => {
-        loadEpisode(currentEpisodeIndex + 1);
-    });
-    
-    // Retour aux détails
-    backToDetails.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = 'details.html';
-    });
-}
-
-// Démarrer l'application
-init();
+    <script src="animes-data.js"></script>
+    <script src="player.js"></script>
+</body>
+</html>
