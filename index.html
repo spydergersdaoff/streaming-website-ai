@@ -3,590 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fortnite Account | Méthode d'achat</title>
+    <title>Fortnite Account | Vault System</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary-color: #ffffff;
             --fortnite-blue: #0085ff;
-            --fortnite-blue-dark: #0063cc;
             --fortnite-purple: #7c4dff;
             --dark-color: #0e1116;
             --darker-color: #0a0d12;
-            --light-color: #e0e0e0;
-            --disabled-opacity: 0.6;
+            --danger-color: #ff4b2b;
+            --ayako-color: #0085ff;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Montserrat', sans-serif;
             background: linear-gradient(135deg, var(--darker-color) 0%, var(--dark-color) 100%);
             color: var(--primary-color);
             min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Effet de fond style Fortnite */
-        .fortnite-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            background:
-                radial-gradient(circle at 10% 20%, rgba(0, 133, 255, 0.08) 0%, transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(124, 77, 255, 0.06) 0%, transparent 30%);
-            pointer-events: none;
-        }
-
-        .fortnite-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                linear-gradient(45deg, transparent 45%, rgba(0, 133, 255, 0.03) 50%, transparent 55%) 0 0,
-                linear-gradient(-45deg, transparent 45%, rgba(124, 77, 255, 0.03) 50%, transparent 55%) 10px 10px;
-            background-size: 20px 20px;
-            opacity: 0.5;
-        }
-
-        /* Particules Fortnite */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(0, 133, 255, 0.3);
-            border-radius: 50%;
-            animation: float linear infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-            50% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-        }
-
-        /* Conteneur principal */
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
         }
 
-        /* Logo avec fond bleu Fortnite */
-        .logo-container {
-            margin-bottom: 2.5rem;
-            position: relative;
-            animation: float 6s ease-in-out infinite;
+        .fortnite-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(0, 133, 255, 0.08) 0%, transparent 30%),
+                        radial-gradient(circle at 90% 80%, rgba(124, 77, 255, 0.06) 0%, transparent 30%);
+            pointer-events: none;
         }
 
-        .logo-frame {
-            width: 180px;
-            height: 180px;
-            background: linear-gradient(145deg,
-                rgba(0, 133, 255, 0.1) 0%,
-                rgba(0, 100, 200, 0.05) 100%);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow:
-                0 0 40px rgba(0, 133, 255, 0.2),
-                0 0 0 1px rgba(0, 133, 255, 0.1);
-            position: relative;
-            margin: 0 auto;
-            border: 1px solid rgba(0, 133, 255, 0.2);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-            backdrop-filter: blur(5px);
-        }
+        .container { position: relative; z-index: 1; max-width: 1100px; width: 100%; padding: 2rem; text-align: center; }
 
-        .logo-frame::before {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg,
-                rgba(0, 133, 255, 0.3),
-                rgba(124, 77, 255, 0.2));
-            z-index: -1;
-            border-radius: 10px;
-            opacity: 0.5;
-        }
+        .logo-frame { width: 160px; height: 160px; background: rgba(0, 133, 255, 0.05); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 1rem auto 2rem auto; border: 1px solid rgba(0, 133, 255, 0.2); backdrop-filter: blur(5px); }
+        .logo { width: 100px; height: 100px; background: url('https://ftnaccounts.mysellauth.com/storage/images/683973.webp') no-repeat center; background-size: contain; }
 
-        .logo {
-            width: 120px;
-            height: 120px;
-            background: url('https://ftnaccounts.mysellauth.com/storage/images/683973.webp') no-repeat center;
-            background-size: contain;
-            filter: drop-shadow(0 0 15px rgba(0, 133, 255, 0.4));
-            transition: transform 0.3s ease;
-        }
+        h1 { font-family: 'Rajdhani', sans-serif; font-size: 3.5rem; text-transform: uppercase; background: linear-gradient(90deg, #fff, var(--fortnite-blue), var(--fortnite-purple), #fff); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 2rem;}
 
-        .logo-container:hover .logo {
-            transform: scale(1.05) rotateY(10deg);
+        /* BOUTONS AVEC EFFETS */
+        .buttons { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: center; margin-bottom: 3rem; }
+        .btn { 
+            padding: 1.3rem 2.5rem; border-radius: 10px; display: flex; align-items: center; gap: 1.2rem; min-width: 280px; 
+            background: rgba(15, 20, 28, 0.8); border: 1px solid rgba(255, 255, 255, 0.1); color: white; text-decoration: none; transition: 0.3s; 
         }
+        .btn:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0, 133, 255, 0.25); border-color: var(--fortnite-blue); }
+        .btn-discord { border-top: 3px solid #5865F2; }
+        .btn-website { border-top: 3px solid var(--fortnite-blue); }
+        .btn-title { display: block; font-weight: 700; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(1deg); }
-        }
-
-        /* Titre style Fortnite */
-        h1 {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg,
-                #ffffff,
-                #0085ff,
-                #7c4dff,
-                #ffffff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            position: relative;
-            display: inline-block;
-            text-shadow: 0 0 10px rgba(0, 133, 255, 0.3);
-        }
-
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg,
-                transparent,
-                rgba(0, 133, 255, 0.8),
-                rgba(124, 77, 255, 0.6),
-                transparent);
-        }
-
-        /* Sous-titre */
-        .subtitle {
-            font-size: 1.1rem;
-            margin-bottom: 3rem;
-            color: rgba(255, 255, 255, 0.8);
-            max-width: 650px;
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        /* Notification Discord indisponible */
-        .discord-notice {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 133, 255, 0.2);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            max-width: 500px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            backdrop-filter: blur(5px);
-        }
-
-        .discord-notice i {
-            color: #5865F2;
-            font-size: 1.2rem;
-        }
-
-        /* Boutons style Fortnite */
-        .buttons {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 3rem;
-        }
-
-        .btn {
-            position: relative;
-            padding: 1.3rem 3rem;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
+        /* --- BLOCS PROMESSES AVEC ANIMATION DE ZOOM --- */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; width: 100%; max-width: 1000px; margin: 0 auto; }
+        
+        .feature-card { 
+            background: rgba(255, 255, 255, 0.03); 
+            padding: 2.5rem 2rem; 
+            border-radius: 15px; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animation fluide et rebondissante */
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            min-width: 200px;
-            background: linear-gradient(145deg,
-                rgba(20, 25, 35, 0.8),
-                rgba(10, 15, 25, 0.8));
-            border: 1px solid rgba(0, 133, 255, 0.2);
-            transform-style: preserve-3d;
-            color: white;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg,
-                rgba(0, 133, 255, 0.1) 0%,
-                rgba(124, 77, 255, 0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            z-index: 0;
-        }
-
-        .btn:hover::before {
-            opacity: 1;
-        }
-
-        .btn-icon {
-            font-size: 1.3rem;
-            transition: transform 0.3s ease;
-        }
-
-        .btn-text {
-            text-align: left;
-            z-index: 1;
             position: relative;
+            overflow: hidden;
         }
 
-        .btn-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            display: block;
+        .feature-card:hover { 
+            transform: scale(1.08); /* Effet de grandissement */
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--fortnite-blue);
+            box-shadow: 0 15px 35px rgba(0, 133, 255, 0.2);
+            z-index: 10;
         }
 
-        .btn-subtitle {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            display: block;
+        .feature-card h3 { 
+            color: var(--fortnite-blue); 
+            margin-bottom: 1rem; 
+            font-family: 'Rajdhani'; 
+            font-size: 1.6rem; 
+            transition: 0.3s;
         }
 
-        .btn-discord {
-            border-top: 2px solid #5865F2;
-            opacity: var(--disabled-opacity);
-            cursor: not-allowed;
-            transform: none !important;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+        .feature-card:hover h3 {
+            text-shadow: 0 0 10px rgba(0, 133, 255, 0.8);
+            letter-spacing: 1px;
         }
 
-        .btn-discord::before {
-            opacity: 0.1 !important;
+        .feature-card p { font-size: 0.95rem; opacity: 0.7; line-height: 1.5; transition: 0.3s; }
+        .feature-card:hover p { opacity: 1; }
+
+        /* --- BOT AYAKO --- */
+        #bot-container { position: fixed; bottom: 25px; right: 25px; z-index: 1000; font-family: 'Montserrat', sans-serif; }
+        .bot-trigger { 
+            width: 70px; height: 70px; background: var(--ayako-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; box-shadow: 0 5px 20px rgba(0, 133, 255, 0.4); border: none; animation: pulse 2s infinite; 
         }
+        .bot-trigger i { color: white; font-size: 2rem; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
 
-        .btn-discord .btn-icon {
-            color: #5865F2;
-            opacity: 0.7;
-        }
+        .chat-window { position: absolute; bottom: 85px; right: 0; width: 360px; background: #161b22; border: 1px solid var(--ayako-color); border-radius: 15px; display: none; flex-direction: column; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+        .chat-header { background: var(--ayako-color); padding: 1rem; color: white; font-weight: bold; display: flex; justify-content: space-between; align-items: center; font-family: 'Rajdhani'; }
+        .chat-messages { height: 320px; padding: 1rem; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #0d1117; }
+        .msg { padding: 10px 14px; border-radius: 10px; font-size: 0.85rem; max-width: 85%; }
+        .bot-msg { background: #21262d; color: white; align-self: flex-start; border-left: 3px solid var(--ayako-color); }
+        .user-msg { background: var(--ayako-color); color: white; align-self: flex-end; }
+        .chat-options { padding: 0.8rem; display: flex; flex-direction: column; gap: 6px; background: #161b22; border-top: 1px solid #30363d; }
+        .opt-btn { background: rgba(0, 133, 255, 0.1); border: 1px solid var(--ayako-color); color: white; padding: 10px; border-radius: 8px; cursor: pointer; text-align: left; font-size: 0.8rem; }
 
-        .btn-discord:hover {
-            transform: none !important;
-        }
-
-        .btn-discord .btn-text {
-            text-decoration: line-through;
-            text-decoration-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-website {
-            border-top: 2px solid var(--fortnite-blue);
-        }
-
-        .btn-website .btn-icon {
-            color: var(--fortnite-blue);
-        }
-
-        .btn-website:hover {
-            transform: translateY(-5px);
-            box-shadow:
-                0 8px 25px rgba(0, 133, 255, 0.3),
-                0 0 0 1px rgba(0, 133, 255, 0.2);
-        }
-
-        .btn-website:hover .btn-icon {
-            transform: scale(1.2);
-        }
-
-        /* Effet de lumière sur les boutons */
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg,
-                transparent,
-                rgba(0, 133, 255, 0.6),
-                transparent);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-            z-index: 1;
-        }
-
-        .btn:hover::after {
-            transform: scaleX(1);
-        }
-
-        /* Pied de page */
-        footer {
-            margin-top: auto;
-            text-align: center;
-            padding: 1.5rem;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(0, 133, 255, 0.1);
-        }
-
-        /* Animation d'apparition */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .container > * {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .container > *:nth-child(1) { animation-delay: 0.2s; }
-        .container > *:nth-child(2) { animation-delay: 0.4s; }
-        .container > *:nth-child(3) { animation-delay: 0.6s; }
-        .container > *:nth-child(4) { animation-delay: 0.8s; }
-        .container > *:nth-child(5) { animation-delay: 1s; }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-
-            .buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .btn {
-                width: 100%;
-                max-width: 300px;
-                margin-bottom: 1rem;
-                padding: 1.2rem 2.5rem;
-            }
-
-            .logo-container {
-                margin-bottom: 2rem;
-            }
-
-            .logo-frame {
-                width: 150px;
-                height: 150px;
-            }
-
-            .logo {
-                width: 100px;
-                height: 100px;
-            }
-
-            .subtitle {
-                font-size: 1rem;
-            }
-
-            .discord-notice {
-                margin-bottom: 1.5rem;
-                font-size: 0.9rem;
-            }
-        }
+        /* POP-UP NFA */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: 0.4s; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: #11141a; border: 2px solid var(--danger-color); padding: 2.5rem; border-radius: 15px; max-width: 450px; text-align: center; }
+        .close-btn { background: var(--danger-color); color: white; border: none; padding: 0.8rem 2rem; border-radius: 5px; cursor: pointer; margin-top: 1.5rem; }
     </style>
 </head>
 <body>
     <div class="fortnite-bg"></div>
-    <div class="particles" id="particles"></div>
 
-    <div class="container">
-        <div class="logo-container">
-            <div class="logo-frame">
-                <div class="logo"></div>
-            </div>
-        </div>
-
-        <h1>Fortnite Account</h1>
-
-        <p class="subtitle">
-            Choisissez votre méthode d'achat préférée pour obtenir vos comptes en toute sécurité.<br>
-            Nous proposons un support réactif et des méthodes de paiement sécurisées.
-        </p>
-
-        <div class="discord-notice">
-            <i class="fab fa-discord"></i>
-            <span>Le support Discord sera disponible prochainement. Restez à l'affût !</span>
-        </div>
-
-        <div class="buttons">
-            <button class="btn btn-discord" disabled>
-                <i class="fab fa-discord btn-icon"></i>
-                <div class="btn-text">
-                    <span class="btn-title">Via Discord</span>
-                    <span class="btn-subtitle">Bientôt disponible</span>
-                </div>
-            </button>
-            <button class="btn btn-website" onclick="window.location.href='https://ftnaccounts.mysellauth.com/'">
-                <i class="fas fa-globe btn-icon"></i>
-                <div class="btn-text">
-                    <span class="btn-title">Via Site Web</span>
-                    <span class="btn-subtitle">Paiement sécurisé</span>
-                </div>
-            </button>
+    <div class="modal-overlay" id="nfaModal">
+        <div class="modal-content">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--danger-color);"></i>
+            <h2 style="margin: 1rem 0; font-family: 'Rajdhani';">ATTENTION COMPTES NFA</h2>
+            <p>Les mails et mots de passe ne sont pas modifiables. Aucun retour possible.</p>
+            <button class="close-btn" onclick="closeModal()">J'ai compris</button>
         </div>
     </div>
 
-    <footer>
-        &copy; 2025 Fortnite Account | Tous droits réservés
-    </footer>
+    <div class="container">
+        <div class="logo-frame"><div class="logo"></div></div>
+        <h1>Fortnite Account</h1>
+        
+        <div class="buttons">
+            <a href="TON_LIEN_DISCORD" class="btn btn-discord">
+                <i class="fab fa-discord" style="font-size: 2rem; color: #5865F2;"></i>
+                <div class="btn-text">
+                    <span class="btn-title">Via Discord</span>
+                    <span class="btn-subtitle">Support & Shop</span>
+                </div>
+            </a>
+            <a href="https://ftnaccounts.mysellauth.com/" class="btn btn-website">
+                <i class="fas fa-shopping-cart" style="font-size: 1.8rem; color: var(--fortnite-blue);"></i>
+                <div class="btn-text">
+                    <span class="btn-title">Boutique Web</span>
+                    <span class="btn-subtitle">Achat Instantané</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>SÉCURITÉ</h3>
+                <p>Vos transactions sont protégées par SellAuth pour garantir un achat sans risque.</p>
+            </div>
+            <div class="feature-card">
+                <h3>QUALITÉ</h3>
+                <p>Des comptes vérifiés avec une description précise de chaque skin présent.</p>
+            </div>
+            <div class="feature-card">
+                <h3>RAPIDITÉ</h3>
+                <p>Réception de vos identifiants par mail immédiatement après le paiement.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="bot-container">
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header"><span><i class="fas fa-robot"></i> AYAKO - VAULT BOT</span><i class="fas fa-times" onclick="toggleBot()" style="cursor:pointer"></i></div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="msg bot-msg">Salut ! Je suis <strong>Ayako</strong>. Clique sur une question pour en savoir plus sur <strong>Vault</strong> !</div>
+            </div>
+            <div class="chat-options">
+                <button class="opt-btn" onclick="askBot('C\'est quoi Vault ?')">C'est quoi Vault ?</button>
+                <button class="opt-btn" onclick="askBot('Le prix d\'un compte ?')">Quel est le prix d'un compte ?</button>
+                <button class="opt-btn" onclick="askBot('Pourquoi acheter un compte ?')">Pourquoi acheter un compte ?</button>
+                <button class="opt-btn" onclick="askBot('Moyens de paiement ?')">Quels sont les moyens de paiement ?</button>
+            </div>
+        </div>
+        <div class="bot-trigger" onclick="toggleBot()"><i class="fas fa-robot"></i></div>
+    </div>
 
     <script>
-        // Création des particules Fortnite
-        const particlesContainer = document.getElementById('particles');
-        const particleCount = 15;
-
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-
-            // Taille aléatoire entre 2 et 5px
-            const size = Math.random() * 3 + 2;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-
-            // Position aléatoire
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            particle.style.left = `${posX}%`;
-            particle.style.top = `${posY}%`;
-
-            // Animation aléatoire
-            const duration = Math.random() * 15 + 10;
-            const delay = Math.random() * 5;
-            particle.style.animationDuration = `${duration}s`;
-            particle.style.animationDelay = `${delay}s`;
-
-            // Couleur aléatoire entre bleu et violet
-            const hue = Math.random() * 30 + 210;
-            particle.style.background = `hsla(${hue}, 100%, 50%, 0.3)`;
-
-            particlesContainer.appendChild(particle);
+        window.onload = () => { setTimeout(() => { document.getElementById('nfaModal').classList.add('active'); }, 500); }
+        function closeModal() { document.getElementById('nfaModal').classList.remove('active'); }
+        function toggleBot() {
+            const win = document.getElementById('chatWindow');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
         }
-
-        // Effet de ripple seulement pour le bouton actif
-        document.querySelector('.btn-website').addEventListener('mousedown', function(e) {
-            const ripple = document.createElement('span');
-            ripple.classList.add('ripple');
-            this.appendChild(ripple);
-
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            ripple.style.left = `${x}px`;
-            ripple.style.top = `${y}px`;
-
+        function askBot(question) {
+            const container = document.getElementById('chatMessages');
+            const userDiv = document.createElement('div');
+            userDiv.className = 'msg user-msg';
+            userDiv.innerText = question;
+            container.appendChild(userDiv);
             setTimeout(() => {
-                ripple.remove();
+                const botDiv = document.createElement('div');
+                botDiv.className = 'msg bot-msg';
+                let response = "";
+                if(question.includes('Vault')) response = "<strong>Vault</strong> est notre serveur de stockage où l'on brade les comptes Fortnite.";
+                else if(question.includes('prix')) response = "Moins de <strong>50 centimes</strong> pour des comptes pouvant avoir 100 Skins !";
+                else if(question.includes('Pourquoi')) response = "85% sont des <strong>cheaters</strong> ou font de la <strong>promo TikTok</strong>.";
+                else if(question.includes('paiement')) response = "On prend <strong>Crypto (LTC/BTC)</strong> et <strong>PayPal (Amis/proches)</strong>.";
+                botDiv.innerHTML = response;
+                container.appendChild(botDiv);
+                container.scrollTop = container.scrollHeight;
             }, 600);
-
-            this.style.transform = 'translateY(1px) scale(0.98)';
-        });
-
-        document.querySelector('.btn-website').addEventListener('mouseup', function() {
-            this.style.transform = '';
-        });
-
-        document.querySelector('.btn-website').addEventListener('mouseleave', function() {
-            this.style.transform = '';
-        });
-
-        // Style pour l'effet de ripple
-        const style = document.createElement('style');
-        style.textContent = `
-            .ripple {
-                position: absolute;
-                border-radius: 50%;
-                background-color: rgba(0, 133, 255, 0.3);
-                transform: scale(0);
-                animation: ripple 0.6s linear;
-                pointer-events: none;
-            }
-
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Effet de parallaxe léger sur le logo
-        document.addEventListener('mousemove', (e) => {
-            const logo = document.querySelector('.logo');
-            if (!logo) return;
-
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            logo.style.transform = `scale(1.05) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-
-        // Réinitialisation quand la souris quitte
-        document.querySelector('.logo-container').addEventListener('mouseleave', () => {
-            const logo = document.querySelector('.logo');
-            if (logo) {
-                logo.style.transform = 'scale(1.05) rotateY(0deg) rotateX(0deg)';
-            }
-        });
+        }
     </script>
 </body>
 </html>
